@@ -3,6 +3,7 @@
     <template #title> Create Item </template>
     <form @submit.prevent="create()">
       <LocationSelector v-model="form.location" />
+      <ItemSelector v-model="form.parent" />
       <FormTextField ref="nameInput" v-model="form.name" :trigger-focus="focused" :autofocus="true" label="Item Name" />
       <FormTextArea v-model="form.description" label="Item Description" />
       <FormMultiselect v-model="form.labels" label="Labels" :items="labels ?? []" />
@@ -54,6 +55,7 @@
 
   const locationsStore = useLocationStore();
   const locations = computed(() => locationsStore.allLocations);
+  const locationItems = computed(() => locations.value.map((location) => ({ value: location., text: location.name })));
 
   const labelStore = useLabelStore();
   const labels = computed(() => labelStore.labels);
@@ -117,7 +119,7 @@
     }
 
     const out: ItemCreate = {
-      parentId: null,
+      parentId: form.parent.id,
       name: form.name,
       description: form.description,
       locationId: form.location.id as string,

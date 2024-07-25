@@ -174,12 +174,16 @@
       },
       {
         name: "Insured",
-        text: item.value?.insured ? "Yes" : "No",
+        text: item.value?.insured ? "Yes" : "",
       },
       {
         name: "Notes",
         type: "markdown",
         text: item.value?.notes,
+      },
+      {
+        name: "Parent",
+        text: item.value?.parent?.name || "",
       },
       ...assetID.value,
       ...item.value.fields.map(field => {

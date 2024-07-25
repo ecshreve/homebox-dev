@@ -49,12 +49,26 @@
                 {{ d.name }}
               </NuxtLink>
             </template>
-            <template v-else-if="cell(h) === 'cell-purchasePrice'">
-              <Currency :amount="d.purchasePrice" />
+            <template v-else-if="cell(h) === 'cell-location'">
+              <NuxtLink
+                v-if="d.location"
+                class="text-sm hover:link badge shadow-md rounded-md"
+                :to="`/location/${d.location.id}`"
+              >
+                {{ d.location.name }}
+              </NuxtLink>
             </template>
-            <template v-else-if="cell(h) === 'cell-insured'">
-              <MdiCheck v-if="d.insured" class="text-green-500 h-5 w-5 inline" />
-              <MdiClose v-else class="text-red-500 h-5 w-5 inline" />
+            <template v-else-if="cell(h) === 'cell-labels'">
+              <LabelChip v-for="label in d.labels" :key="label.id" :label="label" size="sm" />
+            </template>
+            <template v-else-if="cell(h) === 'cell-parent'">
+              <NuxtLink
+                v-if="d.parent"
+                class="text-sm hover:link badge shadow-md rounded-md"
+                :to="`/item/${d.parent.id}`"
+              >
+                {{ d.parent.name }}
+              </NuxtLink>
             </template>
             <slot v-else :name="cell(h)" v-bind="{ item: d }">
               {{ extractValue(d, h.value) }}
@@ -78,8 +92,6 @@
   import type { ItemSummary } from "~~/lib/api/types/data-contracts";
   import MdiArrowDown from "~icons/mdi/arrow-down";
   import MdiArrowUp from "~icons/mdi/arrow-up";
-  import MdiCheck from "~icons/mdi/check";
-  import MdiClose from "~icons/mdi/close";
 
   type Props = {
     items: ItemSummary[];
@@ -92,8 +104,9 @@
     return [
       { text: "Name", value: "name" },
       { text: "Quantity", value: "quantity", align: "center" },
-      { text: "Insured", value: "insured", align: "center" },
-      { text: "Price", value: "purchasePrice" },
+      { text: "Labels", value: "labels", align: "center" },
+      { text: "Location", value: "location", align: "center" },
+      { text: "Parent", value: "parent", align: "center" },
     ] as TableHeader[];
   });
 

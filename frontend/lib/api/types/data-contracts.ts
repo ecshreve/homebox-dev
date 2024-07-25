@@ -144,6 +144,7 @@ export interface ItemSummary {
   labels: LabelSummary[];
   /** Edges */
   location?: LocationSummary | null;
+  parent?: ItemSummary | null;
   name: string;
   /** @example "0" */
   purchasePrice: string;

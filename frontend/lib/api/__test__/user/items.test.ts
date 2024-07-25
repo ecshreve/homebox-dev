@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { describe, test, expect } from "vitest";
-import type { ItemField, ItemUpdate, LocationOut } from "../../types/data-contracts";
+import type { ItemField, ItemOut, ItemUpdate, LocationOut } from "../../types/data-contracts";
 import { AttachmentTypes } from "../../types/non-generated";
 import type { UserClient } from "../../user";
 import { factories } from "../factories";
@@ -23,6 +23,25 @@ describe("user should be able to create an item and add an attachment", () => {
 
     const cleanup = async () => {
       const { response } = await api.locations.delete(data.id);
+      expect(response.status).toBe(204);
+    };
+
+    return [data, cleanup];
+  }
+
+  async function useItem(api: UserClient, location: LocationOut): Promise<[ItemOut, () => Promise<void>]> {
+    const { response, data } = await api.items.create({
+      locationId: location.id,
+      labelIds: [],
+      parentId: null,
+      name: `__test__.item.name_${increment}`,
+      description: `__test__.item.description_${increment}`,
+    });
+    expect(response.status).toBe(201);
+    increment++;
+
+    const cleanup = async () => {
+      const { response } = await api.items.delete(data.id);
       expect(response.status).toBe(204);
     };
 
@@ -61,6 +80,63 @@ describe("user should be able to create an item and add an attachment", () => {
 
     api.items.delete(item.id);
     await cleanup();
+  });
+
+  test("user should be able to add a parent item", async () => {
+    const api = await sharedUserClient();
+    const [location, cleanup] = await useLocation(api);
+    const [parentItem, parentCleanup] = await useItem(api, location);
+
+    const { response, data: item } = await api.items.create({
+      parentId: parentItem.id,
+      name: faker.vehicle.model(),
+      labelIds: [],
+      description: faker.lorem.paragraph(1),
+      locationId: location.id,
+    });
+    expect(response.status).toBe(201);
+
+    const fields: ItemField[] = [
+      factories.itemField(),
+      factories.itemField(),
+      factories.itemField(),
+      factories.itemField(),
+    ];
+
+    // Add fields
+    const itemUpdate = {
+      parentId: item.parent?.id || null,
+      ...item,
+      locationId: item.location?.id || null,
+      labelIds: item.labels.map(l => l.id),
+      fields,
+    };
+
+    const { response: updateResponse, data: item2 } = await api.items.update(item.id, itemUpdate as ItemUpdate);
+    expect(updateResponse.status).toBe(200);
+
+    expect(item2.fields).toHaveLength(fields.length);
+
+    for (let i = 0; i < fields.length; i++) {
+      expect(item2.fields[i].name).toBe(fields[i].name);
+      expect(item2.fields[i].textValue).toBe(fields[i].textValue);
+      expect(item2.fields[i].numberValue).toBe(fields[i].numberValue);
+    }
+
+    itemUpdate.fields = [fields[0], fields[1]];
+
+    const { response: updateResponse2, data: item3 } = await api.items.update(item.id, itemUpdate as ItemUpdate);
+    expect(updateResponse2.status).toBe(200);
+
+    expect(item3.fields).toHaveLength(2);
+    for (let i = 0; i < item3.fields.length; i++) {
+      expect(item3.fields[i].name).toBe(itemUpdate.fields[i].name);
+      expect(item3.fields[i].textValue).toBe(itemUpdate.fields[i].textValue);
+      expect(item3.fields[i].numberValue).toBe(itemUpdate.fields[i].numberValue);
+    }
+
+    cleanup();
+    parentCleanup();
   });
 
   test("user should be able to create and delete fields on an item", async () => {
