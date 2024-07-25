@@ -1,11 +1,26 @@
+volumes:
+  homebox_data:
+    driver: local
+
+networks:
+  default:
+      name: proxy-tsnet
+      external: true
+
 services:
   homebox:
-    image: homebox
+    image: ecshreve/homebox-dev:latest
+    container_name: homebox
     build:
       context: .
       dockerfile: ./Dockerfile
       args:
         - COMMIT=head
         - BUILD_TIME=0001-01-01T00:00:00Z
-    ports:
-      - 3100:7745
+    volumes:
+      - homebox_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homebox.rule=Host(`homebox.ecs.lan`)"
+      - "traefik.http.routers.homebox.entrypoints=web"
+      - "traefik.http.services.homebox.loadbalancer.server.port=7745"

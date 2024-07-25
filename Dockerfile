@@ -54,8 +54,8 @@ COPY --from=builder /go/bin/api /app
 RUN chmod +x /app/api
 RUN apk add --no-cache wget
 
-LABEL Name=homebox Version=0.0.1
-LABEL org.opencontainers.image.source="https://github.com/sysadminsmedia/homebox"
+LABEL Name=homebox-dev Version=0.0.1
+LABEL org.opencontainers.image.source="https://github.com/ecshreve/homebox-dev"
 EXPOSE 7745
 WORKDIR /app
 HEALTHCHECK --interval=30s \
