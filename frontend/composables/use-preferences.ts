@@ -6,6 +6,7 @@ export type ViewType = "table" | "card" | "tree";
 export type LocationViewPreferences = {
   showDetails: boolean;
   showEmpty: boolean;
+  showPrices: boolean;
   editorAdvancedView: boolean;
   itemDisplayView: ViewType;
   theme: DaisyTheme;
@@ -21,6 +22,7 @@ export function useViewPreferences(): Ref<LocationViewPreferences> {
     {
       showDetails: true,
       showEmpty: true,
+      showPrices: false,
       editorAdvancedView: false,
       itemDisplayView: "card",
       theme: "homebox",
