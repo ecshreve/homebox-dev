@@ -10,6 +10,7 @@
   const route = useRoute();
   const api = useUserApi();
   const toast = useNotifier();
+  const preferences = useViewPreferences();
 
   const labelId = computed<string>(() => route.params.id as string);
 
@@ -88,7 +89,7 @@
       return [];
     }
 
-    return resp.data;
+    return resp.data.items;
   });
 </script>
 
@@ -118,12 +119,19 @@
               <h1 class="text-2xl pb-1 flex items-center gap-3">
                 {{ label ? label.name : "" }}
 
-                <div
-                  v-if="items && items.totalPrice"
-                  class="text-xs bg-secondary text-secondary-content rounded-full px-2 py-1"
-                >
+                <div v-if="items && items.length > 0">
                   <div>
-                    <Currency :amount="items.totalPrice" />
+                    <span class="text-xs text-gray-500">
+                      {{ items.length }} item{{ items.length > 1 ? "s" : "" }}
+                    </span>
+                  </div>
+                </div>
+
+                <div v-if="preferences.showPrices" class="flex">
+                  <div v-if="items && items.reduce((acc, item) => acc + Number(item.purchasePrice), 0) > 0">
+                    <div>
+                      <Currency :amount="items.reduce((acc, item) => acc + Number(item.purchasePrice), 0)" />
+                    </div>
                   </div>
                 </div>
               </h1>
@@ -146,6 +154,11 @@
                 <MdiDelete class="mr-2" />
                 Delete
               </BaseButton>
+              <BaseButton class="btn btn-sm">
+                <div class="mr-auto tooltip tooltip-top" data-tip="Show Prices">
+                  <input v-model="preferences.showPrices" type="checkbox" class="toggle toggle-primary" />
+                </div>
+              </BaseButton>
             </div>
           </div>
         </header>
@@ -153,7 +166,7 @@
         <Markdown v-if="label && label.description" class="text-base" :source="label.description"> </Markdown>
       </div>
       <section v-if="label && items">
-        <ItemViewSelectable :items="items.items" />
+        <ItemViewSelectable :items="items" />
       </section>
     </BaseContainer>
   </BaseContainer>
