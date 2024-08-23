@@ -31,6 +31,7 @@
       'p-3': size !== 'sm' && size !== 'lg',
       'badge-sm p-2': size === 'sm',
     }"
+    :style="{backgroundColor: label.color}"
     :to="`/label/${label.id}`"
   >
     <label class="swap swap-rotate" :class="isActive ? 'swap-active' : ''">

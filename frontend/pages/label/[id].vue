@@ -55,6 +55,7 @@
   function openUpdate() {
     updateData.name = label.value?.name || "";
     updateData.description = label.value?.description || "";
+    updateData.color = label.value?.color || "";
     updateModal.value = true;
   }
 
@@ -105,6 +106,7 @@
           :min-length="1"
         />
         <FormTextArea v-model="updateData.description" label="Label Description" :max-length="255" />
+        <FormColorPicker v-model="updateData.color" label="Label Color" />
         <div class="modal-action">
           <BaseButton type="submit" :loading="updating"> Update </BaseButton>
         </div>
@@ -116,7 +118,7 @@
         <header class="mb-2">
           <div class="flex flex-wrap items-end gap-2">
             <div class="avatar placeholder mb-auto">
-              <div class="w-12 rounded-full bg-neutral-focus text-neutral-content">
+              <div class="w-12 rounded-full text-neutral-content" :style="{backgroundColor: label.color}">
                 <MdiPackageVariant class="size-7" />
               </div>
             </div>

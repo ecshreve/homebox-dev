@@ -211,6 +211,7 @@ export interface LabelOut {
   id: string;
   name: string;
   updatedAt: Date | string;
+  color: string;
 }
 
 export interface LabelSummary {
@@ -219,6 +220,7 @@ export interface LabelSummary {
   id: string;
   name: string;
   updatedAt: Date | string;
+  color: string;
 }
 
 export interface LocationCreate {
