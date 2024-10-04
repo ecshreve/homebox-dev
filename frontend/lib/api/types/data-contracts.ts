@@ -209,6 +209,7 @@ export interface LabelOut {
   id: string;
   name: string;
   updatedAt: Date | string;
+  color: string;
 }
 
 export interface LabelSummary {
@@ -217,6 +218,7 @@ export interface LabelSummary {
   id: string;
   name: string;
   updatedAt: Date | string;
+  color: string;
 }
 
 export interface LocationCreate {
@@ -330,7 +332,6 @@ export interface PaginationResultItemSummary {
   page: number;
   pageSize: number;
   total: number;
-  totalPrice: number;
 }
 
 export interface TotalsByOrganizer {

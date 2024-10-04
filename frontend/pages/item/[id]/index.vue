@@ -174,7 +174,7 @@
       },
       {
         name: "Insured",
-        text: item.value?.insured ? "Yes" : "No",
+        text: item.value?.insured ? "Yes" : "",
       },
       {
         name: "Notes",

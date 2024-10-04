@@ -10,6 +10,9 @@
         label="Label Name"
       />
       <FormTextArea v-model="form.description" label="Label Description" />
+
+      <FormColorPicker v-model="form.color" label="Label Color" />
+
       <div class="modal-action">
         <div class="flex justify-center">
           <BaseButton class="rounded-r-none" :loading="loading" type="submit"> {{ $t("global.create") }} </BaseButton>
@@ -47,13 +50,13 @@
   const form = reactive({
     name: "",
     description: "",
-    color: "", // Future!
+    color: "#ff0000", // Default color for the color picker
   });
 
   function reset() {
     form.name = "";
     form.description = "";
-    form.color = "";
+    form.color = "#ff0000"; // Reset to default color
     focused.value = false;
     loading.value = false;
   }

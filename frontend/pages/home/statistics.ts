@@ -15,9 +15,9 @@ export function statCardData(api: UserClient) {
   return computed(() => {
     return [
       {
-        label: "Total Value",
-        value: statistics.value?.totalItemPrice || 0,
-        type: "currency",
+        label: "ecs.lan",
+        value: "homebox",
+        type: "number",
       },
       {
         label: "Total Items",
