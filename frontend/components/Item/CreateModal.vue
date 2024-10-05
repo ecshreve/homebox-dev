@@ -13,7 +13,7 @@
         :min-length="1"
       />
       <FormTextArea v-model="form.description" label="Item Description" :max-length="1000" />
-      <FormMultiselect v-model="form.labels" label="Labels" :items="labels ?? []" />
+      <FormMultiselect v-model="form.labels" label="Labels" :items="labels ?? []" @create-option="createNewLabel" />
 
       <div class="modal-action mb-6">
         <div>
@@ -62,12 +62,9 @@
 
 <script setup lang="ts">
   import type { ItemCreate, LabelOut, LocationOut } from "~~/lib/api/types/data-contracts";
+  import { AttachmentTypes } from "~~/lib/api/types/non-generated";
   import { useLabelStore } from "~~/stores/labels";
   import { useLocationStore } from "~~/stores/locations";
-  import MdiPackageVariant from "~icons/mdi/package-variant";
-  import MdiPackageVariantClosed from "~icons/mdi/package-variant-closed";
-  import MdiChevronDown from "~icons/mdi/chevron-down";
-  import { AttachmentTypes } from "~~/lib/api/types/non-generated";
 
   const props = defineProps({
     modelValue: {
@@ -117,6 +114,24 @@
   });
 
   const { shift } = useMagicKeys();
+
+  async function createNewLabel(name: string) {
+    const { data, error } = await api.labels.create({ name, color: "", description: "" });
+    if (error) {
+      toast.error("Failed to create label");
+      return;
+    }
+
+    const found = form.labels.findIndex(l => l.name === data.name);
+    if (found === -1) {
+      form.labels.push(data);
+    } else {
+      form.labels[found] = data;
+    }
+
+    toast.success("Label created");
+    labelStore.refresh();
+  }
 
   function previewImage(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -202,6 +217,8 @@
     form.color = "";
     form.preview = null;
     form.photo = null;
+    form.labels = [];
+    form.location = locations.value && locations.value.length > 0 ? locations.value[0] : ({} as LocationOut);
     focused.value = false;
     loading.value = false;
 

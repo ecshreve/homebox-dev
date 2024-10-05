@@ -30,13 +30,17 @@
             </button>
           </li>
         </ul>
+        <div class="m-2">
+          <input v-model="optionInput" placeholder="Create new option" class="input input-bordered input-sm w-full" />
+          <button class="btn btn-sm btn-primary" @click="createOption">Create option</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  const emit = defineEmits(["update:modelValue"]);
+  const emit = defineEmits(["update:modelValue", "dropdown-closed", "create-option"]);
   const props = defineProps({
     label: {
       type: String,
@@ -67,6 +71,7 @@
   const value = useVModel(props, "modelValue", emit);
 
   const search = ref("");
+  const optionInput = ref("");
 
   const filteredItems = computed(() => {
     if (!search.value) {
@@ -89,5 +94,18 @@
     } else {
       value.value = [...value.value, item];
     }
+  }
+
+  // Create a new option from the input value and add it to the list of selected items
+  // This function is called when the user clicks the "Create option" button.
+  function createOption() {
+    const newOption = {
+      [props.name]: optionInput.value,
+    };
+
+    value.value.push(newOption);
+    optionInput.value = "";
+
+    emit("create-option", newOption[props.name]);
   }
 </script>

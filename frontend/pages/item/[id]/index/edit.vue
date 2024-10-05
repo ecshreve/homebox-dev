@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  import type { ItemAttachment, ItemField, ItemOut, ItemUpdate } from "~~/lib/api/types/data-contracts";
-  import { AttachmentTypes } from "~~/lib/api/types/non-generated";
-  import { useLabelStore } from "~~/stores/labels";
-  import { useLocationStore } from "~~/stores/locations";
-  import { capitalize } from "~~/lib/strings";
-  import Autocomplete from "~~/components/Form/Autocomplete.vue";
+  import MdiContentSaveOutline from "~icons/mdi/content-save-outline";
   import MdiDelete from "~icons/mdi/delete";
   import MdiPencil from "~icons/mdi/pencil";
-  import MdiContentSaveOutline from "~icons/mdi/content-save-outline";
+  import Autocomplete from "~~/components/Form/Autocomplete.vue";
+  import type { ItemAttachment, ItemField, ItemOut, ItemUpdate } from "~~/lib/api/types/data-contracts";
+  import { AttachmentTypes } from "~~/lib/api/types/non-generated";
+  import { capitalize } from "~~/lib/strings";
+  import { useLabelStore } from "~~/stores/labels";
+  import { useLocationStore } from "~~/stores/locations";
 
   definePageMeta({
     middleware: ["auth"],
@@ -422,6 +422,24 @@
   onUnmounted(() => {
     window.removeEventListener("keydown", keyboardSave);
   });
+
+  async function createNewLabel(name: string) {
+    const { data, error } = await api.labels.create({ name, color: "", description: "" });
+    if (error) {
+      toast.error("Failed to create label");
+      return;
+    }
+
+    const found = item.value.labels.findIndex(l => l.name === data.name);
+    if (found === -1) {
+      item.value.labels.push(data);
+    } else {
+      item.value.labels[found] = data;
+    }
+
+    toast.success("Label created");
+    labelStore.refresh();
+  }
 </script>
 
 <template>
@@ -477,7 +495,12 @@
           </template>
           <div class="mb-6 grid gap-4 border-t px-5 pt-2 md:grid-cols-2">
             <LocationSelector v-model="item.location" />
-            <FormMultiselect v-model="item.labels" label="Labels" :items="labels ?? []" />
+            <FormMultiselect
+              v-model="item.labels"
+              label="Labels"
+              :items="labels ?? []"
+              @create-option="createNewLabel"
+            />
             <Autocomplete
               v-if="preferences.editorAdvancedView"
               v-model="parent"
