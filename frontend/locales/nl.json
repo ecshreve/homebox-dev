@@ -1,0 +1,127 @@
+{
+    "global": {
+        "version": "Versie: { version }",
+        "github": "GitHub Project",
+        "join_discord": "Sluit je aan bij de Discord",
+        "follow_dev": "Volg de ontwikkelaar",
+        "read_docs": "Lees de documentatie",
+        "email": "E-mail",
+        "submit": "Indienen",
+        "confirm": "Bevestigen",
+        "create": "Maken",
+        "create_and_add": "Maak en voeg nog een toe",
+        "password": "Wachtwoord",
+        "build": "Bouw: { build }",
+        "created": "Gemaakt",
+        "welcome": "Welkom, { username }",
+        "sign_out": "Log uit",
+        "labels": "etiketten",
+        "locations": "Locaties",
+        "name": "Naam",
+        "items": "artikelen",
+        "search": "Zoeken"
+    },
+    "index": {
+        "disabled_registration": "Registratie uitgeschakeld",
+        "login": "Log in",
+        "register": "Registreer",
+        "remember_me": "Onthoud mij",
+        "set_email": "Wat is je mailadres?",
+        "set_password": "Stel je wachtwoord in",
+        "set_name": "Wat is je naam?",
+        "joining_group": "Je neemt deel aan een bestaande groep!",
+        "tagline": "Volg, Organiseer en beheer je dingen.",
+        "dont_join_group": "Wil je niet aan een groep deelnemen?"
+    },
+    "components": {
+        "global": {
+            "password_score": {
+                "password_strength": "Wachtwoord sterkte"
+            },
+            "page_qr_code": {
+                "page_url": "Pagina URL"
+            }
+        },
+        "app": {
+            "import_dialog": {
+                "title": "Importeer CSV bestand",
+                "change_warning": "Gedrag voor importeren met bestaande import_refs is veranderd. Als een import_refs reeds bestaat in het CSV bestand, het\nobject zal worden aangepast met de waardes van het CSV bestand.",
+                "upload": "Upload",
+                "description": "Importeer een CSV bestand met je objecten, labels en locaties. Zie documentatie voor meer informatie m.b.t.\n vereist format."
+            }
+        },
+        "item": {
+            "create_modal": {
+                "title": "Maak object"
+            },
+            "view": {
+                "selectable": {
+                    "items": "Objecten",
+                    "card": "Kaart",
+                    "table": "Tabel",
+                    "no_items": "Geen objecten om te tonen"
+                }
+            }
+        },
+        "label": {
+            "create_modal": {
+                "title": "Maak label"
+            }
+        },
+        "location": {
+            "create_modal": {
+                "title": "Maak locatie"
+            }
+        }
+    },
+    "profile": {
+        "gen_invite": "Genereer Uitnodigingslink",
+        "notifier_modal": "{ type, select, true {Bewerk} false {Creëer} other {overig}} Notifier",
+        "change_password": "Verander Wachtwoord",
+        "current_password": "Huidig Wachtwoord",
+        "new_password": "Nieuw Wachtwoord",
+        "url": "URL",
+        "enabled": "ingeschakeld",
+        "test": "Test",
+        "user_profile": "Gebruikers Profiel",
+        "user_profile_sub": "Nodig gebruikers uit, en beheer je account.",
+        "active": "Actief",
+        "inactive": "Inactief",
+        "notifiers_sub": "Krijg notificaties voor opkomende onderhouds herinneringen",
+        "group_settings_sub": "Gedeelde groepsinstellingen",
+        "group_settings": "Groeps Instellingen",
+        "notifiers": "Notificatie",
+        "currency_format": "Valutanotatie",
+        "update_group": "Groep bijwerken",
+        "theme_settings": "Theme instellingen",
+        "theme_settings_sub": "",
+        "delete_account": "Verwijder account",
+        "delete_account_sub": "Verwijder je account en alle geassocieerde data. Deze actie kan niet ongedaan worden."
+    },
+    "items": {
+        "tip_1": "Locatie- en labelfilters gebruiken de 'OF' -werking. Als er meer dan een is geselecteerd,\nis er maar een nodig voor een overeenkomst.",
+        "tip_2": "Zoekopdrachten voorafgegaan door '#'' zullen om een object-ID vragen (bijvoorbeeld '#000-001')",
+        "tip_3": "",
+        "tips_sub": "Zoektips",
+        "updated_at": "Bijgewerkt op",
+        "pages": "Pagina { page } van { totalPages }",
+        "prev_page": "Vorige pagina",
+        "query_id": "ID-nummer van object opvragen: { id }",
+        "reset_search": "Reset Zoeken",
+        "tips": "Tips",
+        "no_results": "Geen Items Gevonden",
+        "options": "Opties",
+        "order_by": "Sorteren op",
+        "results": "{ total } Resultaten",
+        "add": "Toevoegen",
+        "created_at": "Aangemaakt op",
+        "custom_fields": "Aangepaste velden",
+        "field_selector": "Veld selectie",
+        "field_value": "Veldwaarde",
+        "first": "Eerst",
+        "include_archive": "Inclusief gearchiveerde items",
+        "last": "Laatste",
+        "negate_labels": "Negeer Geselecteerde Etiketten",
+        "next_page": "Volgende pagina"
+    }
+}
